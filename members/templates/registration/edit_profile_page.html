@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <br>
+    {% if user.is_authenticated %}
+        {% if user.id == profile.user.id %}
+            <h1 style="color:red">Edit Profile </h1>
+            <br>
+            <div class="mx-auto row">
+                <div class="col-lg-7">
+                    <div class="form-group">
+                        {% comment %} enctype='multipart/form-data' allows uploading images {% endcomment %}
+                        <form method="POST" enctype='multipart/form-data'>
+                        {% csrf_token %}
+                            {{form.as_p}}
+                        <br><button class="btn btn-danger" style="color:white;">Update Profile</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <img src="{% static 'images/recipe3.jpg' %}" style="width:100%;"/>  
+                </div>
+            </div>
+        {% else %}
+            <br/><br/>
+            <h1 class="display-6" style="color:#ff530a;">You are not allowed to edit other users profile</h1>
+            <br/><br/><br/>
+        {% endif %}    
+    {% else %}
+        <br/><br/>
+        <h1 class="display-6" style="color:#ff530a;">You are not logged in ..</h1>
+        <br/><br/><br/>
+    {% endif %}
+</div>
+
+
+{% endblock %}

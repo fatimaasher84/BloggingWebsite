@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <br>
+    <h1 class="display-6" style="color:red;">Login</h1>
+    <br/>
+    <div class="mx-auto row">
+        <div  class="col-lg-7">
+            <div class="form-group">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div>
+                        <input type="text" class="form-control" name="username" placeholder="Username">
+                      </div>
+                      <br/>
+                      <div>
+                        <input type="password" class="form-control" name="password" placeholder="Password">
+                      </div>
+                      <br/> 
+                      <div class="form-text">Not A User? <a href="{% url 'register' %}">Register</a></div>
+                    <br><button class="btn btn-danger">Login</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <img src="{% static 'images/recipelogin.jpg' %}" style="width:100%;"/>  
+        </div>  
+    </div>
+</div>
+{% endblock %}

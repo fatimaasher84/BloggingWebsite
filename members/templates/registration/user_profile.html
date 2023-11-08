@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="block">
+				<h1 class="heading">User Profile</h1>
+				<br>
+				<div class="card mb-3" style="max-width: 940px;">
+					<div class="row">
+					  <div class="col-md-2">
+						
+						{% if page_user.profile_pic %}
+							<img src="{{page_user.profile_pic.url}}" class="img-fluid rounded-start" width=300 height=300>
+						{% else %}
+							<img src="{% static 'images/profilepic.png' %}" class="img-fluid rounded-start" width=300 height=300>
+						{% endif %}
+					   </div>
+					  <div class="col-md-10" style="padding-left:30px;">
+						<div class="card-body">
+						  <h3 class="card-title text-danger">{{page_user.user.first_name}} {{page_user.user.last_name}}</h3>
+						  <small>
+							{% if page_user.website_url %}
+								<a href="https://{{page_user.website_url}}"> <iconify-icon icon="bi:globe" style="color: #3b5998;" width="25" height="25" flip="horizontal"></iconify-icon></a> 
+							{% endif %}
+							{% if page_user.facebook_url %}
+								&nbsp;<a href="{{page_user.facebook_url}}"> 
+									<!-- Facebook -->
+									<i class="fab fa-facebook-f fa-2x" style="color: #3b5998;" width="20" height="20"></i>
+								</a> 
+							{% endif %}
+							{% if page_user.twitter_url %}
+								&nbsp;<a href="{{page_user.twitter_url}}"> 
+									<!-- Twitter -->
+									<i class="fab fa-twitter fa-2x" style="color: #55acee;" width="18" height="18"></i>
+								</a>
+							{% endif %}
+							{% if page_user.instagram_url %}
+								&nbsp;<a href="{{page_user.instagram_url}}"> 
+									<!-- Instagram -->
+									<i class="fab fa-instagram fa-2x" style="color: #ac2bac;" width="18" height="18"></i>
+								</a>
+							{% endif %}
+							</small>
+							<p class="card-text">{{page_user.bio}}</p>
+							<br><br>
+						</div> 
+					  </div>
+					</div>
+				</div>
+			</div>
+		</div><!-- col-md-12 close -->
+	</div><!-- row close -->
+</div><!-- .container close -->
+
+{% endblock %}
