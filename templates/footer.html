@@ -1,0 +1,109 @@
+{% load static %}
+
+<section id="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="block wow fadeInLeft" data-wow-delay="200ms">
+            <h3>CONTACT <span>INFO</span></h3>
+            <div class="info">
+              <ul>
+                <li>
+                  <h4><i class="fa fa-phone"></i>Telefone</h4>
+                  <p>(+92) 123-4567890</p>  
+                </li>
+                <li>
+                  <h4><i class="fa fa-map-marker"></i>Address</h4>
+                  <p>Sheraton Hotel, Islamabad, Pakistan</p>
+                </li>
+                <li>
+                  <h4><i class="fa fa-envelope"></i>Email</h4>
+                  <p>cookblog@gmail.com</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- .col-md-4 close -->
+        <div class="col-md-4">
+          <div class="block wow fadeInLeft" data-wow-delay="700ms">
+            <h3>LATEST <span>BLOG POSTS</span></h3>
+            <div class="blog">
+              <ul>
+              {% if posts %}
+                {% for post in posts %}
+                <li>
+                  <img src="{{post.image.url}}" width="150">
+                  <a href="{% url 'article-detail' post.pk %}"><br/><br/><span class="text-capitalize">{{post.title}}</span></a> -- <small>{{post.post_date}}</small>
+                  <!--<p>{{post.recipe | truncatechars:100 | safe}}</p>-->
+                </li>
+                {% endfor %}
+              {% endif %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- .col-md-4 close -->
+        <div class="col-md-4">
+          <div class="block wow fadeInLeft" data-wow-delay="1100ms">
+            <div class="gallary">
+              <h3>PHOTO <span>STREAM</span></h3>
+              <ul class="footerul">
+                <li>
+                    <img src="{% static 'images/photo/photo-1.jpg' %}"></a>
+                </li>
+                <li>
+                    <img src="{% static 'images/photo/photo-2.jpg' %}"></a>
+                </li>
+                <li>
+                    <img src="{% static 'images/photo/photo-3.jpg' %}"></a>
+                </li>
+                <li>
+                    <img src="{% static 'images/photo/photo-4.jpg' %}"></a>
+                </li>
+                <li>
+                  <img src="{% static 'images/photo/photo-5.jpeg' %}"></a>
+              </li>
+              <li>
+                <img src="{% static 'images/photo/photo-6.jpg' %}"></a>
+            </li>
+              </ul>
+            </div>
+            <div class="social-media-link">
+              <h3>Follow <span>US</span></h3>
+              <ul>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-twitter"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-facebook"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-dribbble"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-behance"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div><!-- .col-md-4 close -->
+      </div><!-- .row close -->
+    </div><!-- .containe close -->
+  </section><!-- #footer close -->
+  <script>
+    $(document).ready(function () {
+    $('[data-bs-toggle="dropdown"]').dropdown();
+  });
+  </script>
+  
+</body>
+</html>

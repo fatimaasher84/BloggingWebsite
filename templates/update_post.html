@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Edit Recipe{% endblock %}
+
+{% block content %}
+<div class="container mt-1">
+    <br><br><br>
+    {% if user.is_authenticated %}
+        <h1 style="color:red">Edit Recipe</h1>
+        <br>
+        {% if user.id == post.author.id %}
+            <div class="mx-auto row">
+                <div  class="col-lg-7">
+                    <div class="form-group">
+                        {% if form.image.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ form.image.errors.0 }}
+                        </div>
+                        {% endif %}
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% comment %}{{form.header_image.label_tag}}
+                            {{form.header_image}}
+                            {{form.header_image.errors}}{% endcomment %}
+                            {{form.media}}
+                            {% comment %} form.as_p means every field will be enclosed in p tag.we can use as_ul or as_table{% endcomment %}
+                            {{form.as_p}}
+                            <br><button class="btn btn-danger">Update Recipe</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <img src="{% static 'images/recipe2.png' %}" style="width:100%;"/>  
+                </div>
+            </div>
+        {% else %}
+            <br/><br/>
+            <h2 class="display-6">You are not authorized to edit post.</h2>
+            <br/><br/><br/>
+        {% endif %}    
+    {% else %}
+        <br/><br/>
+        <h2 class="display-6">You are not logged in ..</h2>
+        <br/><br/><br/>
+    {% endif %}
+</div>
+{% endblock %}

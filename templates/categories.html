@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!--
+    blog start
+    ============================ -->
+	<section id="blog" >
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="block">
+						<h1 class="heading text-capitalize">{{cats}} Recipes</h1>
+						<br/>
+						<div class="row" style="display:flex;">
+                        {% if category_posts %}
+                            {% for post in category_posts %}
+								<div class="col-lg-4 pl-4" style="flex:1; background-color:white; padding-left:45px; padding-top:30px;">
+									<div class="blog-img"><br/>
+										{% if post.image %}
+											<img src="{{post.image.url}}" alt="{{ post.title }}" style="max-width:300px; max-height:300px;">
+										{% else %}
+											<img src="{% static 'images/blog/blog-img-1.jpg' %}" alt="Default Image" style="max-width: 100%;">
+										{% endif %}
+									</div><br/>
+									<div class="content-right">
+										<a href="{% url 'article-detail' post.pk %}" style="color:red;"><h2 class="text-capitalize">{{post.title}}</h2></a>
+                                		By <b><span class="text-capitalize">{{post.author.first_name}} {{post.author.last_name}}</span></b> --
+										{{post.post_date}}<br/>
+										<a href="{% url 'category' post.category|slugify %}" class="text-capitalize btn btn-danger" type="button">{{post.category}}</a><br/>
+                                		<br/><br/>
+										{% if user.is_authenticated %}
+                                    		{% if user.id == post.author.id %}
+                                        		<a href="{% url 'update_post' post.pk %}" class="text-uppercase btn btn-danger" type="button">Edit</a>
+                                        		&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'delete_post' post.pk %}" class="text-uppercase btn  btn-danger" type="button"> Delete </a>
+                                    		{% endif %}
+                                		{% endif %}
+										<br/><br/>
+									</div>
+								</div>	
+							{% endfor %}
+						{% else %}
+                            <h2 style="padding-top:60px; color:white;">No Recipes for <span class="text-capitalize">{{cats}}</span></h2>
+                        {% endif %}
+					    </div>
+					</div>
+					{% if category_posts %}
+					<!--Pagination with bootstrap-->
+    			    <div>
+						<nav aria-label="...">
+							<!--justify-content-center for pagination in center-->
+							<ul class="pagination justify-content-center">
+							  {% if categoryData.has_previous %}
+								<li class="page-item">
+								  <a class="page-link" href="/category/{{slug}}/?page=1" tabindex="-1">First</a>
+								</li>
+								<li class="page-item">
+								  <a class="page-link" href="/category/{{slug}}/?page={{ categoryData.previous_page_number }}" tabindex="1">Previous</a>
+								</li>
+							  {% endif %}
+							  
+							  <li class="page-item disabled"><a class="page-link" href="/category/{{slug}}/?page={{categoryData.number}}">{{categoryData.number}} of {{categoryData.paginator.num_pages}} </a></li>
+							  
+							  {% if categoryData.has_next %}
+								<li class="page-item">
+								  <a class="page-link" href="/category/{{slug}}/?page={{ categoryData.next_page_number }}">Next</a>
+								</li>
+								<li class="page-item">
+								  <a class="page-link" href="/category/{{slug}}/?page={{ lastpage }}">Last</a>
+								</li>
+							  {% endif %}
+							</ul>
+						  </nav><br>
+            		</div>
+					{% endif %}
+				</div><!-- .col-md-12 close -->
+			</div><!-- .row close -->
+		</div><!-- .containe close -->
+	</section><!-- #blog close -->
+	
+{% endblock %}

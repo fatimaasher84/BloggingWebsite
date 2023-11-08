@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Blog Categories{% endblock %}
+
+{% block content %}
+    <div class="container mt-3"><br/>
+        <h1 style="color:red;">Blog Categories</h1><hr/><br/>
+        {% for item in cat_menu_list %}  
+            <a href="{% url 'category' item|slugify %}" class="text-capitalize">{{item}}</a><br/>
+        {% endfor %}
+    </div>
+{% endblock %}

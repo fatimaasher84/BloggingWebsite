@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{post.title}}{% endblock %}
+
+{% block content %}
+    <div class="container mt-5"><br/>
+        <h1 style="color:red;">{{post.title}}</h1>
+        <div style="color:black;">
+            By:<b>  {{post.author.first_name}} {{post.author.last_name}} </b>-- {{post.post_date}}
+             
+            {% if user.is_authenticated %}
+                {% if user.id == post.author.id %}
+                <br> <br/>
+                    <a type="button" class="btn btn-danger" href="{% url 'update_post' post.pk %}"><i class='fas fa-edit'></i>&nbsp; Edit</a></td>
+                    <a type="button" class="btn btn-danger" href="{% url 'delete_post' post.pk %}"><i class='fas fa-eraser'></i>&nbsp; Delete </a></td>
+                {% endif %}
+            {% endif %}
+            <hr/> 
+            {% if post.image %}
+                <img src="{{post.image.url}}" width="400" class="rounded" >
+            {% endif %}<br/><br/>
+            <h4>INGREDIENTS:</h4>
+            {{ingredients | safe}}<br/>
+            <h4>RECIPE:</h4>
+            {{html_content | safe}}
+            <hr/>
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row">
+                  <div class="col-md-2">
+                    {% if post.author.profile.profile_pic %}
+                        <img src="{{post.author.profile.profile_pic.url}}" class="img-fluid rounded-start" width=100 height=100>
+                    {% else %}
+                        <img src="{% static 'images/profilepic.png' %}" class="img-fluid rounded-start" width=100 height=100>
+                    {% endif %}
+                   </div>
+                  <div class="col-md-10" style="padding-left:30px;">
+                    <div class="card-body">
+                      <h3 class="card-title" style="color:red;">{{post.author.first_name}} {{post.author.last_name}}</h3>
+                      <small>
+                        {% if post.author.profile and post.author.profile.id %}
+                        <a href="{% url 'show_profile_page' post.author.profile.id %}">Profile</a>
+                        {% endif %}
+                        {% if post.author.profile.website_url %}
+                            |<a href="{{post.author.profile.website_url}}">Website</a> 
+                        {% endif %}
+                        {% if post.author.profile.facebook_url %}
+                            | <a href="{{post.author.profile.facebook_url}}">Facebook</a> 
+                        {% endif %}
+                        {% if post.author.profile.twitter_url %}
+                            | <a href="{{post.author.profile.twitter_url}}">Twitter </a>
+                        {% endif %}
+                        {% if post.author.profile.instagram_url %}
+                            | <a href="{{post.author.profile.instagram_url}}">Instagram</a>
+                        {% endif %}
+                        </small>
+                        <p class="card-text">{{post.author.profile.bio}}</p>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <br><br>
+            {% if post.pk %}
+                <form method="POST" action="{% url 'like_post' post.pk %}">
+                {% csrf_token %}
+                {% if user.is_authenticated %}
+                     {% if liked%}        
+                        <button type="submit" name="post_id" value="{{post.pk}}" class="btn btn-danger"><i class="fas fa-thumbs-down"></i>&nbsp; Unlike Recipe</button>
+                    {% else %}
+                        <button type="submit" name="post_id" value="{{post.pk}}" class="btn btn-success"><i class="fas fa-thumbs-up"></i>&nbsp; Like Recipe</button>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'login' %}">LOGIN</a> to like Recipe.
+                {% endif %}
+                &nbsp;&nbsp;{{total_likes}} Likes
+                </form>
+            {% endif %}
+            <hr/>
+            <h2 style="color:red;">Leave a Comment:</h2>
+            <br/>
+                <form method="POST" action="{% url 'add_comment' post.pk %}">
+                    {% csrf_token %}
+					<div class="form-group">
+						<input type="text" class="form-control" name="name" placeholder="Write Name">
+					</div>
+					<div class="form-group">
+						<textarea class="form-control" rows="3" name="body" placeholder="Write Comment"></textarea>
+					</div> 
+                    <button class="btn btn-danger" style="color:white;" type="submit">Add Comment</button>
+                </form>
+            
+            {% comment %}comments is the related_name of post field in Comments model {% endcomment %}
+            {% if post.comments.all %}
+                {% for comment in sorted_comments %}        
+                    <hr/>
+                    <strong>
+                        {{comment.name}} - 
+                        {{comment.date_added}}
+                    </strong>
+                    <br/>
+                    {{comment.body}}
+                    <br/>
+                {% endfor %}
+            {% else %}
+                    <br><p>No comments available</p>
+            {% endif %}
+            <br/><br/><a href="{% url 'blog' %}" class="btn btn-danger" style='color:white;'><i class='fas fa-chevron-left' style='color:white; font-size:10px'></i>&nbsp; Back</a>
+        </div>
+    </div>
+{% endblock %}

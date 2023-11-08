@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!--
+    subscribe start
+    ============================ -->
+	<section id="subscribe">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="block">
+						<h1 class=" heading wow fadeInUp" data-wow-duration="300ms" data-wow-delay="300ms"> SUBSCRIBE
+							<span class="text-danger">to our</span> NEWSLETTER</h1>
+						<p class="wow fadeInUp" data-wow-duration="300ms" data-wow-delay="400ms">Subscribe to our new delicious and mouth watering recipes. </p>
+						<form class="form-inline" method="post" action="{% url 'newsletter' %}">
+							{% csrf_token %}
+							<div class="form-group">
+								<div class="input-group">
+									<input type="text" class="form-control" name="newsltr"	placeholder="Enter your email to subscribe...">
+									<div class="input-group-addon">
+										<button class="btn btn-danger" type="submit">subscribe</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div><!-- .col-md-12 close -->
+			</div><!-- .row close -->
+		</div><!-- .containe close -->
+	</section><!-- #subscribe close -->
+	
+
+{% endblock %}

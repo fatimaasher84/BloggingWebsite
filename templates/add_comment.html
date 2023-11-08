@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Add Comment{% endblock %}
+
+{% block content %}
+<div class="container mt-1">
+    <br><h1 style="color:red">Add Comment</h1>
+        <br>
+        <div class="mx-auto row">
+            <div class="col-lg-7">
+                <div class="form-group">
+                    <form method="POST">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <br><button class="btn btn-danger" style="color:white;">Add Comment</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <img src="{% static 'images/recipe3.jpg' %}" style="width:100%;"/>  
+            </div>
+        </div>    
+</div>
+
+
+{% endblock %}
